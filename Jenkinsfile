@@ -1,26 +1,22 @@
-#!/usr/bin/env groovy
 pipeline {
     agent {
         node any
     }
-
-    stages {
-        stage('Build Image') {
-            when {
-                branch 'master'  //only run these steps on the master branch
-            }
-
-            // Jenkins Stage to Build the Docker Image docker image build keleli pull krychi ethe  yep he dockerfile and jenkins udya kru he houn jael udya prt 9.30 am la connect hou sakali.. mazi test ahe sandhykli imp..
-
-        }
-
-        stage('Publish Image') {
-            when {
-                branch 'master'  //only run these steps on the master branch
-            }
-            
-            // Jenkins Stage to Publish the Docker Image to Dockerhub or any Docker repository of your choice.
-
-        }
-    }
+	stages{
+		stage("Git clone"){
+			steps{
+				git branch: 'main', credentialsId: 'aaeb7383-aee1-4e36-bf0d-787b1ee6e1d7', url: 'https://github.com/patilrr/pythondep.git'
+			}
+		}
+		stage("Build Image"){
+			steps{
+				sh "docker build -it image1 ."
+			}
+		}
+		stage("Push Image"){
+			steps{
+				sh "docker push rushikesh13/image1"
+			}
+		}
+	}
 }
